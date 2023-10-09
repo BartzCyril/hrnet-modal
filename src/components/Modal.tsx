@@ -92,7 +92,7 @@ export function Modal(
                 document.removeEventListener('keydown', handleEscape)
             }
             if  (clickClose) {
-                modalRef.current?.addEventListener('click', onClose)
+                modalRef.current?.removeEventListener('click', onClose)
             }
         }
     }, [clickClose, escapeClose, handleEscape, onClose]);

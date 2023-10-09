@@ -1,7 +1,7 @@
 {
   "name": "modal-cyril-bartz",
   "private": false,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple modal component",
   "type": "module",
   "main": "dist/index.umd.js",
