@@ -1,0 +1,32 @@
+{
+  "name": "modal-cyril-bartz",
+  "version": "1.0.0",
+  "description": "A simple modal component",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BartzCyril/hrnet-modal"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "modal"
+  ],
+  "author": "Cyril BARTZ",
+  "license": "ISC",
+  "homepage": "https://github.com/BartzCyril/hrnet-modal/blob/main/README.md",
+  "devDependencies": {
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.1.6"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@types/node": "^20.5.0"
+  }
+}
