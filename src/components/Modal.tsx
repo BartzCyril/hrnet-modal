@@ -1,6 +1,6 @@
 import {createPortal} from "react-dom";
 import React, {CSSProperties, useEffect, useRef} from "react";
-import styled from 'styled-components';
+import {CloseIcon, ModalBackgroundArroud, ModalContainer} from "./Modal.style.css";
 
 type ModalProps = {
     escapeClose?: boolean
@@ -14,49 +14,25 @@ type ModalProps = {
     children : React.ReactNode
 }
 
-const ModalBackgroundArroud = styled.div`
-  position: fixed;
-  z-index: 2;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 100vw;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.75);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
 
-const ModalContainer = styled.div`
-  position: relative;
-  width: 50%;
-  padding: 20px;
-  background-color: white;
-  box-shadow: 0 0 10px #000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
-const CloseIcon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  background-color: black;
-  color: white;
-  font-size: 15px;
-  top: -12.5px;
-  right: -12.5px;
-  border-radius: 100%;
-`
-
+/**
+ * Modal Component
+ *
+ * @component
+ *
+ * @param {Object} props - The component props
+ * @param {boolean} [props.escapeClose=true] - Allows the user to close the modal by pressing ESC
+ * @param {boolean} [props.clickClose=true] - Allows the user to close the modal by clicking the overlay
+ * @param {boolean} [props.showClose=true] - Shows a (X) icon in the top-right corner
+ * @param {CSSProperties} [props.bgroundStyle] - Custom styles for the background around the modal
+ * @param {CSSProperties} [props.modalStyle] - Custom styles for the modal
+ * @param {CSSProperties} [props.iconCloseStyle] - Custom styles for the (X) icon
+ * @param {boolean} props.open - Determines if the modal is open or closed
+ * @param {Function} props.onClose - Function used to open or close the modal
+ * @param {React.ReactNode} props.children - Content to be displayed within the modal
+ *
+ * @returns {TSX.Element|null} The Modal component
+ */
 export function Modal(
     {
         escapeClose = true,
@@ -100,7 +76,7 @@ export function Modal(
     if (open) {
         return (
             createPortal(
-                <ModalBackgroundArroud style={bgroundStyle}>
+                <ModalBackgroundArroud style={bgroundStyle} ref={modalRef}>
                     <ModalContainer style={modalStyle}>
                         {showClose && <CloseIcon style={iconCloseStyle} onClick={onClose}>X</CloseIcon>}
                         {children}

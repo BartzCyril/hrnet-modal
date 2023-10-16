@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "index.ts"),
-      name: "ViteButton",
+      name: "ViteModal",
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
@@ -23,4 +23,8 @@ export default defineConfig({
     emptyOutDir: true,
   },
   plugins: [react(), dts()],
+  test: {
+    environment: 'jsdom',
+    setupFiles: './test/setup.ts'
+  }
 });
