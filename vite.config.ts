@@ -25,6 +25,10 @@ export default defineConfig({
   plugins: [react(), dts()],
   test: {
     environment: 'jsdom',
-    setupFiles: './test/setup.ts'
+    setupFiles: './test/setup.ts',
+    coverage: {
+      reporter: ['text', 'json', 'html'],
+      provider: 'v8'
+    },
   }
 });

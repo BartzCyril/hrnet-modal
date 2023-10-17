@@ -1,19 +1,19 @@
 import {createPortal} from "react-dom";
-import React, {CSSProperties, useEffect, useRef} from "react";
+import React, {CSSProperties, memo, useCallback, useEffect, useRef, useState} from "react";
 import {CloseIcon, ModalBackgroundArroud, ModalContainer} from "./Modal.style.css";
+import {getAllChildren} from "../functions/functions";
 
 type ModalProps = {
     escapeClose?: boolean
     clickClose?: boolean
     showClose?: boolean
-    bgroundStyle?:CSSProperties
+    bgroundStyle?: CSSProperties
     modalStyle?: CSSProperties
     iconCloseStyle?: CSSProperties
     open: boolean
     onClose: () => void
-    children : React.ReactNode
+    children: React.ReactNode
 }
-
 
 /**
  * Modal Component
@@ -22,7 +22,7 @@ type ModalProps = {
  *
  * @param {Object} props - The component props
  * @param {boolean} [props.escapeClose=true] - Allows the user to close the modal by pressing ESC
- * @param {boolean} [props.clickClose=true] - Allows the user to close the modal by clicking the overlay
+ * @param {boolean} [props.clickClose=true] - Allows the user to close the modal by clicking inside
  * @param {boolean} [props.showClose=true] - Shows a (X) icon in the top-right corner
  * @param {CSSProperties} [props.bgroundStyle] - Custom styles for the background around the modal
  * @param {CSSProperties} [props.modalStyle] - Custom styles for the modal
@@ -44,45 +44,86 @@ export function Modal(
         open,
         onClose,
         children
-    } : ModalProps
+    }: ModalProps
 ) {
+
+    const modalRef = useRef<HTMLDivElement>(null);
+    const [focusableElements, setFocusableElements] = useState<HTMLElement[]>([])
+    const index = useRef(0)
+
+    useEffect(() => {
+        if (!focusableElements.length) {
+            const array: HTMLElement[] = []
+            getAllChildren(modalRef?.current as Element, array);
+            for (let i = 0; i < array.length; i++) {
+                array[i].tabIndex = 0
+            }
+            setFocusableElements(array)
+            array[0].focus()
+        }
+    }, [])
 
     const handleEscape = (e: { keyCode: number; }) => {
         if (e.keyCode === 27)
             onClose()
     }
 
-    const modalRef = useRef<HTMLDivElement>(null)
+    const handleTab = (e: { key: string; preventDefault: () => void; }) => {
+        if (e.key === 'Tab' && focusableElements.length) {
+            e.preventDefault()
+            focusableElements[index.current].focus()
+            const newIndex = index.current + 1 >= focusableElements.length ? 0 : index.current + 1
+            index.current = newIndex
+        }
+    }
 
     useEffect(() => {
+
+        window.addEventListener('keydown', handleTab)
+
         if (escapeClose) {
-            document.addEventListener('keydown', handleEscape)
+            window.addEventListener('keydown', handleEscape)
         }
-        
-        if  (clickClose) {
-            modalRef.current?.addEventListener('click', onClose)
-        }
-        
+
         return () => {
             if (escapeClose) {
-                document.removeEventListener('keydown', handleEscape)
+                window.removeEventListener('keydown', handleEscape)
             }
-            if  (clickClose) {
-                modalRef.current?.removeEventListener('click', onClose)
-            }
+            window.removeEventListener('keydown', handleTab)
         }
-    }, [clickClose, escapeClose, handleEscape, onClose]);
+    }, [handleTab, handleEscape, escapeClose]);
 
     if (open) {
         return (
             createPortal(
-                <ModalBackgroundArroud style={bgroundStyle} ref={modalRef}>
-                    <ModalContainer style={modalStyle}>
-                        {showClose && <CloseIcon style={iconCloseStyle} onClick={onClose}>X</CloseIcon>}
+                <ModalBackgroundArroud
+                    style={bgroundStyle}
+                >
+                    <ModalContainer
+                        ref={modalRef}
+                        style={modalStyle}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="you can close the modal"
+                        onClick={clickClose ? onClose : () => {}}
+                        onKeyDown={clickClose ? (event) => {
+                            if (event.key === 'Enter') {
+                                onClose();
+                            }
+                        }: () => {}}
+                    >
+                        {showClose &&
+                            <CloseIcon
+                            style={iconCloseStyle}
+                            onClick={onClose}
+                            aria-label="you can close the modal"
+                            >
+                                X
+                            </CloseIcon>}
                         {children}
                     </ModalContainer>
                 </ModalBackgroundArroud>
-                ,document.body)
+                , document.body)
         )
     }
 
