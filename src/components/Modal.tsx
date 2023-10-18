@@ -52,7 +52,7 @@ export function Modal(
     const index = useRef(0)
 
     useEffect(() => {
-        if (!focusableElements.length) {
+        if (open && !focusableElements.length) {
             const array: HTMLElement[] = []
             getAllChildren(modalRef?.current as Element, array);
             for (let i = 0; i < array.length; i++) {
@@ -79,17 +79,21 @@ export function Modal(
 
     useEffect(() => {
 
-        window.addEventListener('keydown', handleTab)
+        if (open) {
+            window.addEventListener('keydown', handleTab)
 
-        if (escapeClose) {
-            window.addEventListener('keydown', handleEscape)
+            if (escapeClose) {
+                window.addEventListener('keydown', handleEscape)
+            }
         }
 
         return () => {
-            if (escapeClose) {
-                window.removeEventListener('keydown', handleEscape)
+            if (open) {
+                if (escapeClose) {
+                    window.removeEventListener('keydown', handleEscape)
+                }
+                window.removeEventListener('keydown', handleTab)
             }
-            window.removeEventListener('keydown', handleTab)
         }
     }, [handleTab, handleEscape, escapeClose]);
 
@@ -104,7 +108,7 @@ export function Modal(
                         style={modalStyle}
                         role="dialog"
                         aria-modal="true"
-                        aria-label="you can close the modal"
+                        aria-label={clickClose ? "you can close the modal" : ""}
                         onClick={clickClose ? onClose : () => {}}
                         onKeyDown={clickClose ? (event) => {
                             if (event.key === 'Enter') {
