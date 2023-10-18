@@ -27,6 +27,8 @@ npm install modal-cyril-bartz
 ### Testing Status
 
 The Modal component has undergone comprehensive testing to ensure the reliability and functionality of all its features.
+
+
 ![image](https://github.com/BartzCyril/hrnet-modal/assets/123480754/8294ad5f-cf01-451c-aa4d-da40069d4417)
 
 ### Accessibility
