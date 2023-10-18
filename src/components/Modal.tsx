@@ -1,5 +1,5 @@
 import {createPortal} from "react-dom";
-import React, {CSSProperties, memo, useCallback, useEffect, useRef, useState} from "react";
+import React, {CSSProperties, useEffect, useRef, useState} from "react";
 import {CloseIcon, ModalBackgroundArroud, ModalContainer} from "./Modal.style.css";
 import {getAllChildren} from "../functions/functions";
 
@@ -61,7 +61,13 @@ export function Modal(
             setFocusableElements(array)
             array[0].focus()
         }
-    }, [])
+    }, [open])
+
+    useEffect(() => {
+        if (!open) {
+            setFocusableElements([]);
+        }
+    }, [open]);
 
     const handleEscape = (e: { keyCode: number; }) => {
         if (e.keyCode === 27)
@@ -95,7 +101,7 @@ export function Modal(
                 window.removeEventListener('keydown', handleTab)
             }
         }
-    }, [handleTab, handleEscape, escapeClose]);
+    }, [open, handleTab, handleEscape, escapeClose]);
 
     if (open) {
         return (
