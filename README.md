@@ -1,5 +1,9 @@
 # Modal component
 
+### Prerequisites
+
+[Node.js >= v14](https://nodejs.org/en/)
+
 ### Install package
 
 ```shell
@@ -20,17 +24,22 @@ npm install modal-cyril-bartz
 | `onClose`| `function` | Function used to open or close the modal|
 | `children`| `React.ReactNode` | Content to be displayed within the modal|
 
+### Testing Status
+
+The Modal component has undergone comprehensive testing to ensure the reliability and functionality of all its features.
+![image](https://github.com/BartzCyril/hrnet-modal/assets/123480754/8294ad5f-cf01-451c-aa4d-da40069d4417)
+
+### Accessibility
+
+The Modal component is designed with accessibility in mind. It provides a seamless experience for all users, including those who rely on assistive technologies.
+
 ### Usage
 
 ```jsx
 
-  const [open, setOpen] = useState(false)
+  const {show, toggle} = useToggle(false)
 
-  const handleOpen = () => {
-    setOpen(!open)
-  }
-
-  <Modal open={open} onClose={handleOpen}>
+  <Modal open={show} onClose={toggle}>
     <div>Hello world!</div>
   </Modal>
 
