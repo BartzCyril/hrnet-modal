@@ -15,7 +15,7 @@ npm install modal-cyril-bartz
 |       Prop         |        Type       |                 Description               |
 | :----------------: | :---------------: | :---------------------------------------: |
 | `escapeClose = true`| `boolean`| Allows the user to close the modal by pressing `ESC`|
-| `clickClose = true`| `boolean`| Allows the user to close the modal by clicking the overlay|
+| `clickClose = true`| `boolean`| Allows the user to close the modal by clicking inside|
 | `showClose = true` | `boolean`| Shows a (X) icon in the top-right corner|
 | `bgroudStyle`| `CSSProperties` | Custom styles for the background around the modal|
 | `modalStyle`| `CSSProperties` | Custom styles for the modal |
