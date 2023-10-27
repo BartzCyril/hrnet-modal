@@ -10,6 +10,12 @@
 npm install modal-cyril-bartz
 ```
 
+### Import the componenent in your application
+
+```js
+import {Modal} from "modal-cyril-bartz";
+```
+
 ### Props
 
 |       Prop         |        Type       |                 Description               |
@@ -31,6 +37,7 @@ The Modal component has undergone comprehensive testing to ensure the reliabilit
 ### Accessibility
 
 The Modal component is designed with accessibility in mind. It provides a seamless experience for all users, including those who rely on assistive technologies.
+
 
 ### Usage
 
